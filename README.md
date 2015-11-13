@@ -1,92 +1,36 @@
-## Mobile developer competency test
+## Implement a mobile app: Super Soccer Scores
 
-#### Android. Question 1
-
-- [ ] Suppose we starting a service in an Activity as shown below: 
-
-```java
-Intent service = new Intent(context, MyNetworkService.class);             
-startService(service);
-```
-
-Imagine `MyNetworkService` accesses a remote server via Internet and the Activity shows an animation that indicates some 
-kind of progress. Please, describe possible issue with this code?
-
-- [ ] How would you address this issue?
-
-#### Android. Question 2
-
-- [ ] Please, describe the relationship between the life cycle of `AsyncTask` and `Activity`?
-- [ ] Please, explain why it is generally a bad idea to use `AsyncTask` for a long-running background task?  
-
-#### iOS. Question 1
-
-- [ ] Please, explain why the code below logs "areEqual".
-
-```objective-c
-NSString *first = @"test";
-NSString *second = @"test";
-
-
-if (first == second)
-{
-  NSLog(@"areEqual");
-}
-else
-{
-  NSLog(@"areNotEqual");
-}
-```
-
-#### iOS. Question 2
-
-- [ ] Given you need to record an application launch time. So you created a class that defines a global variable in its header: 
-`NSString *startTime;`. And in the class implementation, you set the variable as shown below:
-
-```objective-c
-+ (void)initialize {
-  NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-  [formatter setDateStyle:NSDateFormatterNoStyle];
-  [formatter setTimeStyle:NSDateFormatterMediumStyle];
-  startTime = [formatter stringFromDate:[NSDate date]];
-}
-```
-
-Now you need to log the launch time in `application:didFinishLaunchingWithOptions:` method of your `AppDelegate`:
-
-```objective-c
-NSLog(@"Application was launched at: %@", startTime);
-```
-
-Please, explain why `null` will be logged?
-
-- [ ] Please, suggest a fix how to solve this issue.
-
-#### Practice. Mobile app.
+#### App description
 
 Create an account at http://www.football-data.org/. 
 Use [the API](http://api.football-data.org/docs/latest/index.html) to build a simple mobile application (iOS or Android). 
 
 See below the API endpoints you need to use:
 
-- [ ] `GET http://api.football-data.org/alpha/soccerseasons`: Returns a list of all seasons.
-- [ ] `GET http://api.football-data.org/alpha/soccerseasons/{season_id}/fixtures`: Returns results of all matches in a specific season.
+1. `Endpoint 1. GET http://api.football-data.org/alpha/soccerseasons`: Returns a list of all seasons.
+2. `Endpoint 2. GET http://api.football-data.org/alpha/soccerseasons/{season}/fixtures`: Returns fixtures for the given season.
+3. `Endpoint 3. GET http://api.football-data.org/alpha/soccerseasons/{season}/leagueTable`: Returns league table for the given season.
  
-Please, implement 2-screens-application:
+Please, implement a 3-screen application:
 
-- [ ] `Screen 1. Seasons list`: List all seasons here. Go to the specific season on tap. 
-- [ ] `Screen 2. Season results`: List all results in the specific season. 
+- `Screen 1. Seasons list for 2015 year`: List all seasons. Use `Endpoint 1` to retrieve a list of soccer seasons. Limit it to the `Bundesliga 1` and `Bundesliga 2` and the current year only. On a season tap go to the `Screen 2` for that season.
 
-Please, implement search filter on the `Season results` screen:
+- `Screen 2. League table for the specific season and last fixtures`: Use `Endpoint 2` to retrieve all results for the specific season and build a league table for it. You are not allowed to use `Endpoint 3` to receive league table and should provide logic to calculate it isntead. Please, see the implementation guide below and feel free to use `Endpoint 3` to compare with your result. You should cache locally calculated league table and update it when required. Please, put the results for the most recent match day above the results table as well. On team tap go to the `Screen 3`. Please, implement league table in the most flexible way, so changing scores calulation startegy won't be a problem in the future.
 
-- [ ] The filter should consider both `Team A` and `Team B` names.
+- `Screen 3. Results for the specific team`: This screen should contain all results for the specific team in the season selected on `Screen 2` in the form: `{DATE}: {TEAM A NAME} {GOALS TEAM A} - {GOALS TEAM B} {TEAM B NAME}`.
 
-## Instructions
+#### League table calculations simplified guide
+
+- Every team receive 3 scores for win, 1 for draw and 0 for defeat. 
+- If two teams has the same scores, the goals difference should be considered. The command with better goal difference should be on top.
+- If two teams has the same scores and the same goal difference, the command which scored more goals should be on top.
+- If the all above doesn't work use alphabetical order to define places.
+
+#### Instructions
 
 - Please, clone this repo in a new `Bitbucket` private repo.
-- Edit `README.md` file to provide answers on first 4 tasks. 
-- Implement a mobile app described in Task 5 and push your changes.
-- Put in the repo short documentation on how to run the app using an emulator.
-- Grant access to your private repo for BitBucket user `supertag` so we can review your code. 
+- Implement `Super Soccer Scores` app there.
+- Put in the repo short documentation on how to run the app, and if possible a link to the demo video.
+- Grant access to your private repo for BitBucket user `supertag` so we can review your code.
 
-We suppose this test require from 3 to 4 hours. Thanks in advance for your time spent on this test! 
+Thanks in advance for your time spent on this test!
